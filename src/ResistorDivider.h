@@ -14,7 +14,7 @@ namespace resistor_divider {
 
 namespace code_parser {
 
-int find_prefix(std::string const code) {
+int FindPrefix(std::string const code) {
 	int ret = 0;
 	std::smatch match;
 	std::regex const prefix_regexp(R"(\d+(?=(k|R|M)))");
@@ -24,7 +24,7 @@ int find_prefix(std::string const code) {
 	return ret;
 }
 
-int find_suffix(std::string const code) {
+int FindSuffix(std::string const code) {
 	int ret = 0;
 	std::smatch match;
 	std::regex const suffix_regexp(R"((k|R|M)\d+)");
@@ -35,7 +35,7 @@ int find_suffix(std::string const code) {
 	return ret;
 }
 
-int find_mul(std::string const code) {
+int FindMul(std::string const code) {
 	int ret = 0;
 	std::smatch match;
 	std::regex const letter_regexp(R"(\D)");
@@ -54,7 +54,7 @@ int find_mul(std::string const code) {
 	return ret;
 }
 
-int find_suffix_div(std::string const code) {
+int FindSuffixDiv(std::string const code) {
 	int ret = 1;
 	std::smatch match;
 	std::regex const suffix_regexp(R"((k|R|M)\d+)");
@@ -72,11 +72,11 @@ int find_suffix_div(std::string const code) {
 	return ret;
 }
 
-std::uint64_t parse_code_2_mr(std::string const code) {
-	std::uint64_t const prefix = find_prefix(code);
-	std::uint64_t const mul = find_mul(code);
-	std::uint64_t const suffix = find_suffix(code);
-	std::uint64_t const suffix_div = find_suffix_div(code);
+std::uint64_t ParseCodeTo_mR(std::string const code) {
+	std::uint64_t const prefix = FindPrefix(code);
+	std::uint64_t const mul = FindMul(code);
+	std::uint64_t const suffix = FindSuffix(code);
+	std::uint64_t const suffix_div = FindSuffixDiv(code);
 	std::uint64_t const suffix_mul = mul / suffix_div;
 	return ((prefix * mul) + (suffix * suffix_mul));
 }
