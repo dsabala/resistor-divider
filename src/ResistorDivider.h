@@ -1,8 +1,28 @@
-﻿// ResistorDivider.h: plik dołączany dla standardowych systemowych plików dołączanych,
-// lub pliki dołączane specyficzne dla projektu.
+﻿/**
+ * Project: Resistor Divider
+ * Description: Simple program that helps you look for pairs of resistors for voltage dividers. 
+ * Author: Dariusz Sabala
+ * License: BSD
+ */
 
 #pragma once
 
-#include <iostream>
+#include <regex>
 
-// TODO: W tym miejscu przywołaj dodatkowe nagłówki wymagane przez program.
+namespace resistor_divider {
+
+namespace code_parser {
+
+int find_prefix(std::string const code) {
+	int ret = 0;
+	std::smatch prefix_match;
+	std::regex const prefix_regexp(R"(\d+(?=k|R|M))");
+	if (std::regex_search(code, prefix_match, prefix_regexp)) {
+		ret = std::stoi(prefix_match.str());
+	}
+	return ret;
+}
+
+}
+
+}
