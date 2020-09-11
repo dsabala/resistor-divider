@@ -117,4 +117,38 @@ private:
 	std::uint64_t value;
 };
 
+class ResistorsPair {
+public:
+	ResistorsPair(Resistor res_low, Resistor res_high) {
+		resistor_low = res_low;
+		resistor_high = res_high;
+		CalculateRatio();
+	}
+
+	ResistorsPair(std::uint64_t res_low, std::uint64_t res_high)
+		: resistor_low(res_low), resistor_high(res_high) {
+		CalculateRatio();
+	}
+
+	double GetRatio() {
+		return ratio;
+	}
+
+	void CalculateRatio() {
+		double res_low = static_cast<double>(resistor_low.GetValue());
+		double res_high = static_cast<double>(resistor_high.GetValue());
+		ratio = res_low / (res_low + res_high);
+	}
+
+	bool operator<(const ResistorsPair& a) const
+	{
+		return ratio < a.ratio;
+	}
+
+private:
+	Resistor resistor_low;
+	Resistor resistor_high;
+	double ratio;
+};
+
 } // namespace resistor_divider

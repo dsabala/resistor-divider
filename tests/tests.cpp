@@ -98,3 +98,17 @@ TEST_CASE("Overloading comparison operators") {
     CHECK(resistor700 == resistor700_second);
     CHECK_FALSE(resistor500 == resistor700);
 }
+
+TEST_CASE("Resistors pair object construction and comparison") {
+    resistor_divider::Resistor resistor_low(100);
+    resistor_divider::Resistor resistor_high(900);
+    resistor_divider::ResistorsPair example_pair(resistor_low, resistor_high);
+    CHECK(example_pair.GetRatio() == 0.1);
+
+    resistor_divider::ResistorsPair example_pair2(200, 800);
+    CHECK(example_pair2.GetRatio() == 0.2);
+
+    CHECK(example_pair < example_pair2);
+
+
+}
