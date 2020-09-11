@@ -172,7 +172,6 @@ void GenerateRatioList(std::vector<ResistorsPair> &ratio_list,
 					ratio_list.push_back(pair);
 				}
 			}
-
 		}
 	}
 	std::sort(ratio_list.begin(), ratio_list.end());
