@@ -83,4 +83,38 @@ std::uint64_t ParseCodeTo_mR(std::string const code) {
 
 } // namespace code_parser
 
+class Resistor {
+public:
+	Resistor() : value(0) { }
+	Resistor(std::uint64_t val) : value(val) { }
+	Resistor(std::string val_code) {
+		value = code_parser::ParseCodeTo_mR(val_code);
+	}
+
+	std::uint64_t GetValue() {
+		return value;
+	}
+
+	void SetValue(std::uint64_t val) {
+		value = val;
+	}
+
+	void SetValue(std::string val_code) {
+		value = code_parser::ParseCodeTo_mR(val_code);
+	}
+
+	bool operator==(const Resistor& second) const {
+		bool ret = false;
+
+		if (value == second.value) {
+			ret = true;
+		}
+
+		return ret;
+	}
+
+private:
+	std::uint64_t value;
+};
+
 } // namespace resistor_divider

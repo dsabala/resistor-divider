@@ -71,3 +71,30 @@ TEST_CASE("Finally parse the resistore code") {
     CHECK(res_parser::ParseCodeTo_mR("1M22")  ==   1'220'000'000);
     CHECK(res_parser::ParseCodeTo_mR("470M0") == 470'000'000'000);
 }
+
+TEST_CASE("Resistor class ways of initialising") {
+    resistor_divider::Resistor default_resistor;
+    CHECK(default_resistor.GetValue() == 0);
+    resistor_divider::Resistor sample_resistor(500);
+    CHECK(sample_resistor.GetValue() == 500);
+    resistor_divider::Resistor sample_resistor_2(470'000'000'000);
+    CHECK(sample_resistor_2.GetValue() == 470'000'000'000);
+    resistor_divider::Resistor sample_resistor_3("47k2");
+    CHECK(sample_resistor_3.GetValue() == 47'200'000);
+    resistor_divider::Resistor default_resistor2;
+    default_resistor2.SetValue(700);
+    CHECK(default_resistor2.GetValue() == 700);
+    resistor_divider::Resistor resistor_late_init;
+    resistor_late_init.SetValue("1k05");
+    CHECK(resistor_late_init.GetValue() == 1'050'000);
+}
+
+
+TEST_CASE("Overloading comparison operators") {
+    resistor_divider::Resistor resistor500(500);
+    resistor_divider::Resistor resistor700(700);
+    resistor_divider::Resistor resistor700_second(700);
+
+    CHECK(resistor700 == resistor700_second);
+    CHECK_FALSE(resistor500 == resistor700);
+}
