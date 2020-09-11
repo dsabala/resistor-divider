@@ -109,6 +109,24 @@ TEST_CASE("Resistors pair object construction and comparison") {
     CHECK(example_pair2.GetRatio() == 0.2);
 
     CHECK(example_pair < example_pair2);
+}
 
+void PrintRatioArray(std::vector<resistor_divider::ResistorsPair>& arr_ref) {
+    for (auto i = 0; i < arr_ref.size(); ++i) {
+        //std::cout << std::setfill('') << std::setw(5) << 25;
+        std::cout.precision(3);
+        std::cout << "Resistor Low: " << std::fixed << std::setw(7) << arr_ref.at(i).GetResLow().GetValue() << "  "
+                  << "Resistor High: " << std::fixed << std::setw(7) << arr_ref.at(i).GetResHigh().GetValue() << "  "
+            << "Ratio: " << std::fixed << arr_ref.at(i).GetRatio() << "\n";
+    }
+}
+
+TEST_CASE("Generation of available ratio list") {
+    std::vector<resistor_divider::ResistorsPair> ratio_list;
+    std::vector<std::uint64_t> multipliers{ 1, 10 };
+    std::vector<std::uint64_t> serio_e3{ 22, 47, };
+
+    GenerateRatioList(ratio_list, multipliers, serio_e3);
+    PrintRatioArray(ratio_list);
 
 }
