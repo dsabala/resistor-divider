@@ -159,7 +159,7 @@ public:
 		ratio = res_low / (res_low + res_high);
 	}
 
-	bool operator<(const ResistorsPair& a) const
+	constexpr bool operator<(const ResistorsPair& a) const
 	{
 		return ratio < a.ratio;
 	}
@@ -216,7 +216,7 @@ struct AvailableRatios
 				}
 			}
 		}
-		//std::sort(std::begin(arr), std::end(arr));
+		std::sort(std::begin(arr), std::end(arr));
 	}
 
 	ResistorsPair arr[Two_Permutations_Of_N(N)];
