@@ -187,7 +187,7 @@ void GenerateRatioList(std::vector<ResistorsPair> &ratio_list,
 			}
 		}
 	}
-	//pdqsort(ratio_list.begin(), ratio_list.end());
+	std::sort(ratio_list.begin(), ratio_list.end());
 }
 
 constexpr int Two_Permutations_Of_N(int n) {
@@ -203,10 +203,14 @@ struct AvailableRatios
 		int index = 0;
 		for (auto n = 0; n < mul_size; ++n) {
 			for (auto i = 0; i < ser_size; ++i) {
-				Resistor res1((ser[i] * mul[n]));
+				std::uint64_t res_1_serie = ser[i];
+				std::uint64_t res_1_mul = mul[n];
+				Resistor res1(res_1_serie * res_1_mul);
 				for (auto z = 0; z < mul_size; ++z) {
 					for (auto x = 0; x < ser_size; ++x) {
-						Resistor res2((ser[x] * mul[z]));
+						std::uint64_t res_2_serie = ser[x];
+						std::uint64_t res_2_mul = mul[z];
+						Resistor res2(res_2_serie * res_2_mul);
 						ResistorsPair pair(res1, res2);
 						if (!pair.DivideInHalf()) {
 							arr[index] = pair;
