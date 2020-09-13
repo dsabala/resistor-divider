@@ -339,3 +339,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /out/build/x64-Debug (domyślnie)
+/out/build/x64-Debug

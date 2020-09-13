@@ -3,6 +3,8 @@
 #include "doctest.h"
 #include "ResistorDivider.h"
 
+#include <array>
+
 namespace res_parser = resistor_divider::code_parser;
 
 TEST_CASE("Find resistor code prefix") {
@@ -109,23 +111,52 @@ TEST_CASE("Resistors pair object construction and comparison") {
     CHECK(example_pair2.GetRatio() == 0.2);
 
     CHECK(example_pair < example_pair2);
+    CHECK_FALSE(example_pair.DivideInHalf());
+
+    resistor_divider::ResistorsPair example_pair3(800, 800);
+    CHECK(example_pair3.DivideInHalf());
 }
 
 void PrintRatioArray(std::vector<resistor_divider::ResistorsPair>& arr_ref) {
     std::cout << "\n List of available ratios: (example) \n";
     for (auto i = 0; i < arr_ref.size(); ++i) {
         std::cout.precision(3);
-        std::cout << "Resistor Low: " << std::fixed << std::setw(7) << arr_ref.at(i).GetResLow().GetValue() << "  "
+        std::cout << "Pair no. " << std::fixed << std::setw(7) << i+1 << " "
+                  << "Resistor Low: " << std::fixed << std::setw(7) << arr_ref.at(i).GetResLow().GetValue() << "  "
                   << "Resistor High: " << std::fixed << std::setw(7) << arr_ref.at(i).GetResHigh().GetValue() << "  "
-            << "Ratio: " << std::fixed << arr_ref.at(i).GetRatio() << "\n";
+                  << "Ratio: " << std::fixed << arr_ref.at(i).GetRatio() << "\n";
     }
 }
 
-TEST_CASE("Generation of available ratio list") {
-    std::vector<resistor_divider::ResistorsPair> ratio_list;
-    std::vector<std::uint64_t> multipliers{ 1, 10 };
-    std::vector<std::uint64_t> serio_e3{ 22, 47, };
+template<int N>
+void PrintRatioArray2(resistor_divider::AvailableRatios<N> ratios) {
+    std::cout << "\n List of available ratios: (example) \n";
+    for (auto i = 0; i < N; ++i) {
+        std::cout.precision(3);
+        std::cout << "Pair no. " << std::fixed << std::setw(7) << i + 1 << " "
+            << "Resistor Low: " << std::fixed << std::setw(7) << ratios.arr[i].GetResLow().GetValue()
+            << "Resistor High: " << std::fixed << std::setw(7) << ratios.arr[i].GetResHigh().GetValue() << "  "
+            << "Ratio: " << std::fixed << ratios.arr[i].GetRatio() << "\n";
+    }
+}
 
-    GenerateRatioList(ratio_list, multipliers, serio_e3);
-    PrintRatioArray(ratio_list);
+TEST_CASE("Generation of available ratio list") { 
+    #define ARRAY_DIM(x) (sizeof(x)/sizeof(x[0]))
+    CHECK(resistor_divider::Two_Permutations_Of_N(6) == 30);
+    CHECK(resistor_divider::Two_Permutations_Of_N(1200) == 1438800);
+
+    static constexpr int mul[] = { 1, 10 };
+    static constexpr int ser[] = { 10, 22, 47 };
+    static constexpr int n_factor = ARRAY_DIM(mul) * ARRAY_DIM(ser);
+    CHECK(n_factor == 6);
+
+    constexpr resistor_divider::AvailableRatios<n_factor> a(mul, ARRAY_DIM(mul), ser, ARRAY_DIM(ser));
+
+    PrintRatioArray2<n_factor>(a);
+
+    //for (auto x : a.arr){
+        //std::cout << "f(" << x[0] << ") = " << x[1] << '\n';
+        //std::cout << x.GetValue() << "\n";
+        //std::cout << x.GetResHigh().GetValue() << "\n";
+    //}
 }

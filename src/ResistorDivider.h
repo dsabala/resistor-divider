@@ -85,17 +85,17 @@ std::uint64_t ParseCodeTo_mR(std::string const code) {
 
 class Resistor {
 public:
-	Resistor() : value(0) { }
-	Resistor(std::uint64_t val) : value(val) { }
+	constexpr Resistor() : value(0) { }
+	constexpr Resistor(std::uint64_t val) : value(val) { }
 	Resistor(std::string val_code) {
 		value = code_parser::ParseCodeTo_mR(val_code);
 	}
 
-	std::uint64_t GetValue() {
+	constexpr std::uint64_t GetValue() {
 		return value;
 	}
 
-	void SetValue(std::uint64_t val) {
+	constexpr void SetValue(std::uint64_t val) {
 		value = val;
 	}
 
@@ -119,14 +119,17 @@ private:
 
 class ResistorsPair {
 public:
-	ResistorsPair(Resistor res_low, Resistor res_high) {
+	constexpr ResistorsPair() : resistor_low(0), resistor_high(0), ratio(0) { }
+
+	constexpr ResistorsPair(Resistor res_low, Resistor res_high)
+		: resistor_low(0), resistor_high(0), ratio(0) {
 		resistor_low = res_low;
 		resistor_high = res_high;
 		CalculateRatio();
 	}
 
-	ResistorsPair(std::uint64_t res_low, std::uint64_t res_high)
-		: resistor_low(res_low), resistor_high(res_high) {
+	constexpr ResistorsPair(std::uint64_t res_low, std::uint64_t res_high)
+		: resistor_low(res_low), resistor_high(res_high), ratio(0) {
 		CalculateRatio();
 	}
 
@@ -142,7 +145,15 @@ public:
 		return resistor_high;
 	}
 
-	void CalculateRatio() {
+	constexpr bool DivideInHalf() {
+		bool ret = false;
+		if (ratio == 0.5) {
+			ret = true;
+		}
+		return ret;
+	}
+
+	constexpr void CalculateRatio() {
 		double res_low = static_cast<double>(resistor_low.GetValue());
 		double res_high = static_cast<double>(resistor_high.GetValue());
 		ratio = res_low / (res_low + res_high);
@@ -169,12 +180,46 @@ void GenerateRatioList(std::vector<ResistorsPair> &ratio_list,
 				for (auto x = 0; x < val_serie.size(); ++x) {
 					Resistor res2((val_serie.at(x) * val_multipliers.at(z)));
 					ResistorsPair pair(res1, res2);
-					ratio_list.push_back(pair);
+					if(!pair.DivideInHalf()) {
+						ratio_list.push_back(pair);
+					}
 				}
 			}
 		}
 	}
-	std::sort(ratio_list.begin(), ratio_list.end());
+	//pdqsort(ratio_list.begin(), ratio_list.end());
 }
+
+constexpr int Two_Permutations_Of_N(int n) {
+	return (n - 1) * n;
+}
+
+template<int N>
+struct AvailableRatios
+{
+	constexpr AvailableRatios(const int* mul, int mul_size,
+		const int* ser, int ser_size) : arr()
+	{
+		int index = 0;
+		for (auto n = 0; n < mul_size; ++n) {
+			for (auto i = 0; i < ser_size; ++i) {
+				Resistor res1((ser[i] * mul[n]));
+				for (auto z = 0; z < mul_size; ++z) {
+					for (auto x = 0; x < ser_size; ++x) {
+						Resistor res2((ser[x] * mul[z]));
+						ResistorsPair pair(res1, res2);
+						if (!pair.DivideInHalf()) {
+							arr[index] = pair;
+							index++;
+						}
+					}
+				}
+			}
+		}
+		//std::sort(std::begin(arr), std::end(arr));
+	}
+
+	ResistorsPair arr[Two_Permutations_Of_N(N)];
+};
 
 } // namespace resistor_divider
