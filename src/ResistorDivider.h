@@ -171,8 +171,8 @@ private:
 };
 
 void GenerateRatioList(std::vector<ResistorsPair> &ratio_list,
-                       std::vector<std::uint64_t> &val_multipliers,
-                       std::vector<std::uint64_t> &val_serie) {
+					   const std::vector<std::uint64_t> &val_multipliers,
+	                   const std::vector<std::uint64_t> &val_serie) {
 	for (auto n = 0; n < val_multipliers.size(); ++n) {
 		for (auto i = 0; i < val_serie.size(); ++i) {
 			Resistor res1((val_serie.at(i) * val_multipliers.at(n)));
@@ -187,5 +187,32 @@ void GenerateRatioList(std::vector<ResistorsPair> &ratio_list,
 	}
 	std::sort(ratio_list.begin(), ratio_list.end());
 }
+
+class PairsFinder {
+public:
+	PairsFinder() : pairs() {
+		GenerateRatioList(pairs, multipliers_values, serie_e192_values);
+	}
+
+private:
+	std::vector<ResistorsPair> pairs;
+
+	std::vector<std::uint64_t> const multipliers_values
+	{ 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000 };
+
+	std::vector<std::uint64_t> const serie_e192_values
+	{ 100, 101, 102, 104, 105, 106, 107, 109, 110, 111, 113, 114, 115, 117, 118, 120,
+	  121, 123, 124, 126, 127, 129, 130, 132, 133, 135, 137, 138, 140, 142, 143, 145,
+	  147, 149, 150, 152, 154, 156, 158, 160, 162, 164, 165, 167, 169, 172, 174, 176,
+	  178, 180, 182, 184, 187, 189, 191, 193, 196, 198, 200, 203, 205, 208, 210, 213,
+	  215, 218, 221, 223, 226, 229, 232, 234, 237, 240, 243, 246, 249, 252, 255, 258,
+	  261, 264, 267, 271, 274, 277, 280, 284, 287, 291, 294, 298, 301, 305, 309, 312,
+	  316, 320, 324, 328, 332, 336, 340, 344, 348, 352, 357, 361, 365, 370, 374, 379,
+	  383, 388, 392, 397, 402, 407, 412, 417, 422, 427, 432, 437, 442, 448, 453, 459,
+	  464, 470, 475, 481, 487, 493, 499, 505, 511, 517, 523, 530, 536, 542, 549, 556,
+	  562, 569, 576, 583, 590, 597, 604, 612, 619, 626, 634, 642, 649, 657, 665, 673,
+	  681, 690, 698, 706, 715, 723, 732, 741, 750, 759, 768, 777, 787, 796, 806, 816,
+	  825, 835, 845, 856, 866, 876, 887, 898, 909, 920, 931, 942, 953, 965, 976, 988 };
+};
 
 } // namespace resistor_divider
