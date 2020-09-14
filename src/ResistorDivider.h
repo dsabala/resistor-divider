@@ -170,28 +170,48 @@ private:
 	double ratio;
 };
 
-void GenerateRatioList(std::vector<ResistorsPair> &ratio_list,
-					   const std::vector<std::uint64_t> &val_multipliers,
-	                   const std::vector<std::uint64_t> &val_serie) {
-	for (auto n = 0; n < val_multipliers.size(); ++n) {
-		for (auto i = 0; i < val_serie.size(); ++i) {
-			Resistor res1((val_serie.at(i) * val_multipliers.at(n)));
-			for (auto z = 0; z < val_multipliers.size(); ++z) {
-				for (auto x = 0; x < val_serie.size(); ++x) {
-					Resistor res2((val_serie.at(x) * val_multipliers.at(z)));
-					ResistorsPair pair(res1, res2);
-					ratio_list.push_back(pair);
-				}
-			}
-		}
-	}
-	std::sort(ratio_list.begin(), ratio_list.end());
-}
-
 class PairsFinder {
 public:
 	PairsFinder() : pairs() {
 		GenerateRatioList(pairs, multipliers_values, serie_e192_values);
+	}
+
+	static void GenerateRatioList(std::vector<ResistorsPair>& ratio_list,
+		const std::vector<std::uint64_t>& val_multipliers,
+		const std::vector<std::uint64_t>& val_serie) {
+		for (auto n = 0; n < val_multipliers.size(); ++n) {
+			for (auto i = 0; i < val_serie.size(); ++i) {
+				Resistor res1((val_serie.at(i) * val_multipliers.at(n)));
+				for (auto z = 0; z < val_multipliers.size(); ++z) {
+					for (auto x = 0; x < val_serie.size(); ++x) {
+						Resistor res2((val_serie.at(x) * val_multipliers.at(z)));
+						ResistorsPair pair(res1, res2);
+						ratio_list.push_back(pair);
+					}
+				}
+			}
+		}
+		std::sort(ratio_list.begin(), ratio_list.end());
+	}
+
+	static void Find(const std::vector<ResistorsPair>& ratio_list,
+		             std::vector<ResistorsPair>& results,
+		             const int results_number,
+		             const double desired_ratio) {
+
+	}
+
+    static std::vector<ResistorsPair>::iterator
+    find_match(std::vector<ResistorsPair> &ratio_list,
+               const double desired_ratio) {
+		std::vector<ResistorsPair>::iterator element = ratio_list.begin();
+		while (element != ratio_list.end()) {
+			if ((*element).GetRatio() > desired_ratio) {
+				break;
+			}
+			element++;
+		}
+		return element;
 	}
 
 private:

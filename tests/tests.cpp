@@ -120,7 +120,7 @@ TEST_CASE("Resistors pair object construction and comparison") {
 void PrintRatioArray(std::vector<resistor_divider::ResistorsPair>& arr_ref) {
     std::cout << "\n List of available ratios: (example) \n";
     for (auto i = 0; i < arr_ref.size(); ++i) {
-        std::cout.precision(3);
+        std::cout.precision(5);
         std::cout << "Pair no. " << std::fixed << std::setw(7) << i+1 << " "
                   << "Resistor Low: " << std::fixed << std::setw(7) << arr_ref.at(i).GetResLow().GetValue() << "  "
                   << "Resistor High: " << std::fixed << std::setw(7) << arr_ref.at(i).GetResHigh().GetValue() << "  "
@@ -129,18 +129,18 @@ void PrintRatioArray(std::vector<resistor_divider::ResistorsPair>& arr_ref) {
 }
 
 TEST_CASE("Generation of available ratio list") { 
+    //Generating ratio list
     const std::vector<std::uint64_t> val_multipliers{ 1, 10, 100 };
     const std::vector<std::uint64_t> val_serie2 { 10, 22, 47 };
 
     std::vector<resistor_divider::ResistorsPair> ratio_list;
 
-    GenerateRatioList(ratio_list, val_multipliers, val_serie2);
+    resistor_divider::PairsFinder::GenerateRatioList(ratio_list, val_multipliers, val_serie2);
 
     PrintRatioArray(ratio_list);
-}
 
-TEST_CASE("Pairs finder") {
-
-    resistor_divider::PairsFinder finder;
-
+    //Finding first higher ratio element in list
+    std::vector<resistor_divider::ResistorsPair>::iterator element;
+    element = resistor_divider::PairsFinder::find_match(ratio_list, 0.688);
+    REQUIRE((*element).GetRatio() == doctest::Approx(0.8196721311));
 }
