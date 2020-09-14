@@ -180,50 +180,12 @@ void GenerateRatioList(std::vector<ResistorsPair> &ratio_list,
 				for (auto x = 0; x < val_serie.size(); ++x) {
 					Resistor res2((val_serie.at(x) * val_multipliers.at(z)));
 					ResistorsPair pair(res1, res2);
-					if(!pair.DivideInHalf()) {
-						ratio_list.push_back(pair);
-					}
+					ratio_list.push_back(pair);
 				}
 			}
 		}
 	}
 	std::sort(ratio_list.begin(), ratio_list.end());
 }
-
-constexpr int Two_Permutations_Of_N(int n) {
-	return (n - 1) * n;
-}
-
-template<int N>
-struct AvailableRatios
-{
-	constexpr AvailableRatios(const int* mul, int mul_size,
-		const int* ser, int ser_size) : arr()
-	{
-		int index = 0;
-		for (auto n = 0; n < mul_size; ++n) {
-			for (auto i = 0; i < ser_size; ++i) {
-				std::uint64_t res_1_serie = ser[i];
-				std::uint64_t res_1_mul = mul[n];
-				Resistor res1(res_1_serie * res_1_mul);
-				for (auto z = 0; z < mul_size; ++z) {
-					for (auto x = 0; x < ser_size; ++x) {
-						std::uint64_t res_2_serie = ser[x];
-						std::uint64_t res_2_mul = mul[z];
-						Resistor res2(res_2_serie * res_2_mul);
-						ResistorsPair pair(res1, res2);
-						if (!pair.DivideInHalf()) {
-							arr[index] = pair;
-							index++;
-						}
-					}
-				}
-			}
-		}
-		std::sort(std::begin(arr), std::end(arr));
-	}
-
-	ResistorsPair arr[Two_Permutations_Of_N(N)];
-};
 
 } // namespace resistor_divider

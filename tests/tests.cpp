@@ -128,32 +128,16 @@ void PrintRatioArray(std::vector<resistor_divider::ResistorsPair>& arr_ref) {
     }
 }
 
-template<int N>
-void PrintRatioArray2(resistor_divider::AvailableRatios<N> ratios) {
-    std::cout << "\n List of available ratios: (example) \n";
-    for (auto i = 0; i < resistor_divider::Two_Permutations_Of_N(N); ++i) {
-        std::cout.precision(3);
-        std::cout << "Pair no. " << std::fixed << std::setw(7) << i + 1 << " "
-            << "Resistor Low: " << std::fixed << std::setw(7) << ratios.arr[i].GetResLow().GetValue() << "  "
-            << "Resistor High: " << std::fixed << std::setw(7) << ratios.arr[i].GetResHigh().GetValue() << "  "
-            << "Ratio: " << std::fixed << ratios.arr[i].GetRatio() << "\n";
-    }
-}
-
 TEST_CASE("Generation of available ratio list") { 
-    #define ARRAY_DIM(x) (sizeof(x)/sizeof(x[0]))
-    CHECK(resistor_divider::Two_Permutations_Of_N(6) == 30);
-    CHECK(resistor_divider::Two_Permutations_Of_N(1200) == 1438800);
+    std::vector<std::uint64_t> val_multipliers{ 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000 };
 
-    static constexpr int mul[] = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000 };
+    std::vector<std::uint64_t> val_serie2 { 10, 15, 22, 33, 47, 68 };
 
-    static constexpr int ser[] = { 10, 15, 22, 33, 47, 68 };
-
-    static constexpr int ser_bigger[] = { 100, 101, 102, 104, 105, 106, 107, 109, 110, 111, 113, 114, 115, 117, 118, 120,
+    std::vector<std::uint64_t> val_serie1 { 100, 101, 102, 104, 105, 106, 107, 109, 110, 111, 113, 114, 115, 117, 118, 120,
                                          121, 123, 124, 126, 127, 129, 130, 132, 133, 135, 137, 138, 140, 142, 143, 145,
                                          147, 149, 150, 152, 154, 156, 158, 160, 162, 164, 165, 167, 169, 172, 174, 176 };
 
-    static constexpr int ser_big_enough[] = { 100, 101, 102, 104, 105, 106, 107, 109, 110, 111, 113, 114, 115, 117, 118, 120,
+    std::vector<std::uint64_t> val_serie { 100, 101, 102, 104, 105, 106, 107, 109, 110, 111, 113, 114, 115, 117, 118, 120,
                                   121, 123, 124, 126, 127, 129, 130, 132, 133, 135, 137, 138, 140, 142, 143, 145, 
                                   147, 149, 150, 152, 154, 156, 158, 160, 162, 164, 165, 167, 169, 172, 174, 176, 
                                   178, 180, 182, 184, 187, 189, 191, 193, 196, 198, 200, 203, 205, 208, 210, 213, 
@@ -166,8 +150,9 @@ TEST_CASE("Generation of available ratio list") {
                                   681, 690, 698, 706, 715, 723, 732, 741, 750, 759, 768, 777, 787, 796, 806, 816, 
                                   825, 835, 845, 856, 866, 876, 887, 898, 909, 920, 931, 942, 953, 965, 976, 988 };
 
-    static constexpr int n_factor = ARRAY_DIM(mul) * ARRAY_DIM(ser);
-    constexpr resistor_divider::AvailableRatios<n_factor> a(mul, ARRAY_DIM(mul), ser, ARRAY_DIM(ser));
+    std::vector<resistor_divider::ResistorsPair> ratio_list;
 
-    PrintRatioArray2<n_factor>(a);
+    GenerateRatioList(ratio_list, val_multipliers, val_serie);
+
+    PrintRatioArray(ratio_list);
 }
