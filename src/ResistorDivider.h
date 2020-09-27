@@ -257,9 +257,8 @@ public:
 					closest_pairs.range_end = true;
 				}
 			}
-
 		}
-}
+	}
 
 private:
 	std::vector<ResistorsPair> pairs;

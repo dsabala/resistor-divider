@@ -150,7 +150,7 @@ TEST_CASE("Extracting the proposed pairs one by one") {
     ratio_list.push_back(pair3);
     ResistorsPair pair4(9, 1);
     ratio_list.push_back(pair4);
-    PrintRatioArray(ratio_list);
+    //PrintRatioArray(ratio_list);
 
     PairsClosest matches;
     CHECK_FALSE(matches.initialised);
@@ -197,4 +197,23 @@ TEST_CASE("Extracting the proposed pairs one by one") {
     PairsFinder::find_next(ratio_list, matches, 1.0);
     REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.1));
     CHECK(matches.range_end);
+}
+
+TEST_CASE("Integration of list generation and searching") {
+    using namespace resistor_divider;
+
+    std::vector<ResistorsPair> ratio_list;
+    std::vector<ResistorsPair> found_pairs_list;
+    PairsFinder::GenerateRatioList(ratio_list, val_multipliers, val_serie2);
+    PrintRatioArray(ratio_list);
+
+    PairsClosest matches;
+
+    for (int x = 0; (x < 12) && (!matches.range_end); x++){
+        PairsFinder::find_next(ratio_list, matches, 0.34);
+        found_pairs_list.push_back(*(matches.latest));
+    }
+    std::sort(found_pairs_list.begin(), found_pairs_list.end());
+
+    PrintRatioArray(found_pairs_list);
 }
