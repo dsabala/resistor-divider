@@ -11,6 +11,8 @@
 #include <cassert>
 #include <cmath>
 
+#include "csvstream.h"
+
 namespace resistor_divider {
 
 namespace code_parser {
@@ -112,6 +114,11 @@ public:
 		}
 
 		return ret;
+	}
+
+	constexpr bool operator<(const Resistor& a) const
+	{
+		return value < a.value;
 	}
 
 private:
@@ -279,6 +286,74 @@ private:
 	  562, 569, 576, 583, 590, 597, 604, 612, 619, 626, 634, 642, 649, 657, 665, 673,
 	  681, 690, 698, 706, 715, 723, 732, 741, 750, 759, 768, 777, 787, 796, 806, 816,
 	  825, 835, 845, 856, 866, 876, 887, 898, 909, 920, 931, 942, 953, 965, 976, 988 };
+};
+
+class BomReader {
+public:
+	BomReader(const std::string& filename) : csv_parser(filename) {
+		std::vector<std::pair<std::string, std::string>> row;
+		bool is_resistor;
+		int x = 0;
+
+		while (csv_parser >> row) {
+			is_resistor = false;
+			for (unsigned int i = 0; i < row.size(); ++i) {
+				const std::string& column_name = row[i].first;
+				const std::string& data = row[i].second;
+				if (column_name == "Designator") {
+					std::regex const resistor_expr(R"(R\d+)");
+					if (std::regex_search(data, resistor_expr)) {
+						is_resistor = true;
+					}
+				}
+			}
+
+			if (is_resistor) {
+				for (unsigned int i = 0; i < row.size(); ++i) {
+					const std::string& column_name = row[i].first;
+					const std::string& data = row[i].second;
+					if (column_name == "Value")
+					{
+						Resistor resistor(data);
+						resistor_list.push_back(resistor);
+					}
+				}
+			}
+			x++;
+		}
+		std::sort(resistor_list.begin(), resistor_list.end());
+	}
+
+	bool CheckIfPossible(ResistorsPair& pair) {
+		bool ret = false;
+
+		bool found_first = false;
+		bool found_second = false;
+
+		for (int i = 0; (i < resistor_list.size()) && (!(found_first && found_second)); ++i) {
+			if (resistor_list.at(i).GetValue() == pair.GetResHigh().GetValue()) {
+				found_first = true;
+			}
+
+			if (resistor_list.at(i).GetValue() == pair.GetResLow().GetValue()) {
+				found_second = true;
+			}
+		}
+
+		if (found_first && found_second) {
+			ret = true;
+		}
+
+		return ret;
+	}
+
+	std::vector<Resistor> GetList() {
+		return resistor_list;
+	}
+
+private:
+	csvstream csv_parser;
+	std::vector<Resistor> resistor_list;
 };
 
 } // namespace resistor_divider

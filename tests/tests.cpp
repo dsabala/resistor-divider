@@ -1,7 +1,7 @@
 
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include "ResistorDivider.h"
+#include "resistor_divider.h"
 
 #include <array>
 
@@ -118,13 +118,20 @@ TEST_CASE("Resistors pair object construction and comparison") {
 }
 
 void PrintRatioArray(std::vector<resistor_divider::ResistorsPair>& arr_ref) {
-    std::cout << "\n List of available ratios: (example) \n";
+    std::cout << "\n List of available ratios: \n";
     for (auto i = 0; i < arr_ref.size(); ++i) {
         std::cout.precision(5);
         std::cout << "Pair no. " << std::fixed << std::setw(7) << i+1 << " "
                   << "Resistor Low: " << std::fixed << std::setw(7) << arr_ref.at(i).GetResLow().GetValue() << "  "
                   << "Resistor High: " << std::fixed << std::setw(7) << arr_ref.at(i).GetResHigh().GetValue() << "  "
                   << "Ratio: " << std::fixed << arr_ref.at(i).GetRatio() << "\n";
+    }
+}
+
+void PrintResArray(std::vector<resistor_divider::Resistor>& arr_ref) {
+    std::cout << "\n List of available resistors: \n";
+    for (auto i = 0; i < arr_ref.size(); ++i) {
+        std::cout << "Resistor no. " << i+1 << " value: " << arr_ref.at(i).GetValue() << "  " << "\n";
     }
 }
 
@@ -216,4 +223,27 @@ TEST_CASE("Integration of list generation and searching") {
     std::sort(found_pairs_list.begin(), found_pairs_list.end());
 
     PrintRatioArray(found_pairs_list);
+}
+
+TEST_CASE("Bom reader") {
+    using namespace resistor_divider;
+    BomReader bom("../../../../tests/bom_example.csv");
+    PrintResArray(bom.GetList());
+
+    ResistorsPair pair(3300000, 160000000);
+    CHECK(bom.CheckIfPossible(pair));
+
+    ResistorsPair pair2(3300000, 160000001);
+    CHECK_FALSE(bom.CheckIfPossible(pair2));
+}
+
+TEST_CASE("Empty csv or no resistors") {
+    using namespace resistor_divider;
+    BomReader bom("../../../../tests/bom_example_no_res.csv");
+
+    ResistorsPair pair(3300000, 160000000);
+    CHECK_FALSE(bom.CheckIfPossible(pair));
+
+    ResistorsPair pair2(3300000, 160000001);
+    CHECK_FALSE(bom.CheckIfPossible(pair2));
 }
