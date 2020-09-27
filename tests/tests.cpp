@@ -128,19 +128,73 @@ void PrintRatioArray(std::vector<resistor_divider::ResistorsPair>& arr_ref) {
     }
 }
 
+const std::vector<std::uint64_t> val_multipliers{ 1, 10, 100 };
+const std::vector<std::uint64_t> val_serie2{ 10, 22, 47 };
+
 TEST_CASE("Generation of available ratio list") { 
-    //Generating ratio list
-    const std::vector<std::uint64_t> val_multipliers{ 1, 10, 100 };
-    const std::vector<std::uint64_t> val_serie2 { 10, 22, 47 };
-
+    //Generate list
     std::vector<resistor_divider::ResistorsPair> ratio_list;
-
     resistor_divider::PairsFinder::GenerateRatioList(ratio_list, val_multipliers, val_serie2);
+    //PrintRatioArray(ratio_list);
+}
 
+TEST_CASE("Extracting the proposed pairs one by one") {
+    using namespace resistor_divider;
+
+    std::vector<ResistorsPair> ratio_list;
+    ResistorsPair pair1(1, 9);
+    ratio_list.push_back(pair1);
+    ResistorsPair pair2(1, 4);
+    ratio_list.push_back(pair2);
+    ResistorsPair pair3(4, 1);
+    ratio_list.push_back(pair3);
+    ResistorsPair pair4(9, 1);
+    ratio_list.push_back(pair4);
     PrintRatioArray(ratio_list);
 
-    //Finding first higher ratio element in list
-    std::vector<resistor_divider::ResistorsPair>::iterator element;
-    element = resistor_divider::PairsFinder::find_match(ratio_list, 0.688);
-    REQUIRE((*element).GetRatio() == doctest::Approx(0.8196721311));
+    PairsClosest matches;
+    CHECK_FALSE(matches.initialised);
+
+    matches.initialised = false;
+    PairsFinder::find_next(ratio_list, matches, 0.0);
+    REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.1));
+    PairsFinder::find_next(ratio_list, matches, 0.0);
+    REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.2));
+    PairsFinder::find_next(ratio_list, matches, 0.0);
+    REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.8));
+    PairsFinder::find_next(ratio_list, matches, 0.0);
+    REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.9));
+    CHECK_FALSE(matches.range_end);
+    PairsFinder::find_next(ratio_list, matches, 0.0);
+    REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.9));
+    CHECK(matches.range_end);
+
+    matches.initialised = false;
+    matches.range_end = false;
+    PairsFinder::find_next(ratio_list, matches, 0.51);
+    CHECK(matches.initialised);
+    REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.8));
+    PairsFinder::find_next(ratio_list, matches, 0.51);
+    REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.2));
+    PairsFinder::find_next(ratio_list, matches, 0.51);
+    REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.9));
+    PairsFinder::find_next(ratio_list, matches, 0.51);
+    REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.1));
+
+    matches.initialised = false;
+    matches.range_end = false;
+    PairsFinder::find_next(ratio_list, matches, 1.0);
+    REQUIRE((*(matches.below)).GetRatio() == doctest::Approx(0.9));
+    REQUIRE((*(matches.above)).GetRatio() == doctest::Approx(0.9));
+    REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.9));
+    PairsFinder::find_next(ratio_list, matches, 1.0);
+    REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.8));
+    PairsFinder::find_next(ratio_list, matches, 1.0);
+    REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.2));
+    PairsFinder::find_next(ratio_list, matches, 1.0);
+    REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.1));
+    CHECK_FALSE(matches.range_end);
+    PairsFinder::find_next(ratio_list, matches, 1.0);
+    REQUIRE((*(matches.latest)).GetRatio() == doctest::Approx(0.1));
+    CHECK(matches.range_end);
 }

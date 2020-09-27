@@ -9,6 +9,7 @@
 
 #include <regex>
 #include <cassert>
+#include <cmath>
 
 namespace resistor_divider {
 
@@ -133,15 +134,15 @@ public:
 		CalculateRatio();
 	}
 
-	double GetRatio() {
+	constexpr double GetRatio() {
 		return ratio;
 	}
 
-	Resistor GetResLow() {
+	constexpr Resistor GetResLow() {
 		return resistor_low;
 	}
 
-	Resistor GetResHigh() {
+	constexpr Resistor GetResHigh() {
 		return resistor_high;
 	}
 
@@ -170,6 +171,15 @@ private:
 	double ratio;
 };
 
+struct PairsClosest {
+	std::vector<ResistorsPair>::iterator above;
+	std::vector<ResistorsPair>::iterator below;
+	std::vector<ResistorsPair>::iterator latest;
+	bool initialised;
+	bool range_end;
+	PairsClosest() : initialised(false), range_end(false) {};
+};
+
 class PairsFinder {
 public:
 	PairsFinder() : pairs() {
@@ -194,25 +204,62 @@ public:
 		std::sort(ratio_list.begin(), ratio_list.end());
 	}
 
-	static void Find(const std::vector<ResistorsPair>& ratio_list,
-		             std::vector<ResistorsPair>& results,
-		             const int results_number,
-		             const double desired_ratio) {
-
-	}
-
-    static std::vector<ResistorsPair>::iterator
-    find_match(std::vector<ResistorsPair> &ratio_list,
-               const double desired_ratio) {
-		std::vector<ResistorsPair>::iterator element = ratio_list.begin();
-		while (element != ratio_list.end()) {
-			if ((*element).GetRatio() > desired_ratio) {
-				break;
+	static void find_next(std::vector<ResistorsPair>& ratio_list,
+			              PairsClosest& closest_pairs,
+			              const double desired_ratio) {
+		if (!closest_pairs.initialised) {
+			std::vector<ResistorsPair>::iterator selected;
+			closest_pairs.initialised = true;
+			selected = ratio_list.begin();
+			while (selected != (ratio_list.end() - 1)) {
+				selected++;
+				if ((*selected).GetRatio() > desired_ratio) {
+					break;
+				}
 			}
-			element++;
+			double diff_below = std::abs((*(selected - 1)).GetRatio() - desired_ratio);
+			double diff_above = std::abs((*(selected)).GetRatio() - desired_ratio);
+			if (diff_below < diff_above) {
+				closest_pairs.latest = selected - 1;
+			}
+			else {
+				closest_pairs.latest = selected;
+			}
+			closest_pairs.below = closest_pairs.latest;
+			closest_pairs.above = closest_pairs.latest;
 		}
-		return element;
-	}
+		else {
+			double diff_below = 2;
+			double diff_above = 2;
+
+			if (closest_pairs.below > ratio_list.begin()) {
+				diff_below = std::abs((*(closest_pairs.below - 1)).GetRatio() - desired_ratio);
+			}
+
+			if (closest_pairs.above < (ratio_list.end() - 1)) {
+				diff_above = std::abs((*(closest_pairs.above + 1)).GetRatio() - desired_ratio);
+			}
+
+			if (diff_below < diff_above) {
+				closest_pairs.below -= 1;
+				closest_pairs.latest = closest_pairs.below;
+			}
+			else if (diff_below > diff_above) {
+				closest_pairs.above += 1;
+				closest_pairs.latest = closest_pairs.above;
+			}
+			else if(diff_below == diff_above) {
+				if (diff_below < 2){
+					closest_pairs.below -= 1;
+					closest_pairs.latest = closest_pairs.below;
+				}
+				else {
+					closest_pairs.range_end = true;
+				}
+			}
+
+		}
+}
 
 private:
 	std::vector<ResistorsPair> pairs;
