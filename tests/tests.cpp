@@ -227,9 +227,9 @@ TEST_CASE("Integration of list generation and searching") {
 
 TEST_CASE("Bom reader") {
     using namespace resistor_divider;
-    BomReader bom("../../../../tests/bom_example.csv");
+    BomReader bom("bom_example.csv");
     //PrintResArray(bom.GetList());
-    //TODO fix this
+    //TODO fix this 
 
     ResistorsPair pair(3300000, 160000000);
     CHECK(bom.CheckIfPossible(pair));
@@ -240,7 +240,7 @@ TEST_CASE("Bom reader") {
 
 TEST_CASE("Empty csv or no resistors") {
     using namespace resistor_divider;
-    BomReader bom("../../../../tests/bom_example_no_res.csv");
+    BomReader bom("bom_example_no_res.csv");
 
     ResistorsPair pair(3300000, 160000000);
     CHECK_FALSE(bom.CheckIfPossible(pair));
