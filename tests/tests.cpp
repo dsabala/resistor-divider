@@ -228,7 +228,8 @@ TEST_CASE("Integration of list generation and searching") {
 TEST_CASE("Bom reader") {
     using namespace resistor_divider;
     BomReader bom("../../../../tests/bom_example.csv");
-    PrintResArray(bom.GetList());
+    //PrintResArray(bom.GetList());
+    //TODO fix this
 
     ResistorsPair pair(3300000, 160000000);
     CHECK(bom.CheckIfPossible(pair));
