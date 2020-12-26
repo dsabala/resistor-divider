@@ -1,0 +1,14 @@
+[
+  {
+    "name": "MinGW",
+    "toolchainFile": "cmake/toolchains/MinGW.cmake",
+    "preferredGenerator": {
+      "name": "MinGW Makefiles"
+    },
+    "compilers": 
+    {
+      "C": "gcc",
+      "CXX": "g++"
+    }
+  }
+]
