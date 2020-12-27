@@ -7,8 +7,8 @@
     },
     "compilers": 
     {
-      "C": "gcc",
-      "CXX": "g++"
+      "C": "gcc.exe",
+      "CXX": "g++.exe"
     }
   }
 ]
