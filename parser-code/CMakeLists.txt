@@ -1,5 +1,7 @@
 cmake_minimum_required (VERSION 3.13)
 
+add_subdirectory(tests)
+
 add_library(parser-code)
 add_library(resistor-divider::parser-code ALIAS parser-code)
 
