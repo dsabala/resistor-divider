@@ -2,5 +2,9 @@
   {
     "name": "MinGW",
     "toolchainFile": "cmake/toolchains/MinGW.cmake"
+  },
+  {
+    "name": "Clang-MSVC",
+    "toolchainFile": "cmake/toolchains/Clang.cmake"
   }
 ]
