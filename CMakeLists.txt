@@ -9,3 +9,4 @@ enable_testing()
 
 add_subdirectory(parser-code)
 add_subdirectory(resistor-divider)
+add_subdirectory(third-party)
