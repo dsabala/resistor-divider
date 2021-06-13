@@ -1,6 +1,3 @@
-[submodule "third-party\\csvstream\\csvstream"]
-	path = third-party\\csvstream\\csvstream
-	url = https://github.com/awdeorio/csvstream
 [submodule "third-party/doctest"]
 	path = third-party/doctest
 	url = https://github.com/onqtam/doctest
