@@ -1,10 +1,10 @@
 [
   {
-    "name": "MinGW",
-    "toolchainFile": "cmake/toolchains/MinGW.cmake"
+    "name": "gcc",
+    "toolchainFile": "cmake/toolchains/gcc.cmake"
   },
   {
-    "name": "Clang-MSVC",
-    "toolchainFile": "cmake/toolchains/Clang.cmake"
+    "name": "clang",
+    "toolchainFile": "cmake/toolchains/clang.cmake"
   }
 ]
