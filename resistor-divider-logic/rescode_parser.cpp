@@ -6,10 +6,9 @@
 
 #include <cassert>
 #include <regex>
+#include <rescode_parser.hpp>
 
-#include <parser-code.hpp>
-
-namespace parser_code {
+namespace rescode_parser {
 
 int FindPrefix(std::string const code) {
   int ret = 0;
@@ -77,4 +76,4 @@ std::uint64_t ParseCodeTo_mR(std::string const code) {
   return ((prefix * mul) + (suffix * suffix_mul));
 }
 
-}  // namespace parser_code
+}  // namespace rescode_parser

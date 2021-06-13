@@ -7,6 +7,6 @@ project(resistor-divider CXX)
 include(CTest)
 enable_testing()
 
-add_subdirectory(parser-code)
+add_subdirectory(resistor-divider-logic)
 add_subdirectory(resistor-divider)
 add_subdirectory(third-party)

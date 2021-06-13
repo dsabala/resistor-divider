@@ -2,16 +2,16 @@ cmake_minimum_required (VERSION 3.13)
 
 add_subdirectory(tests)
 
-add_library(parser-code)
-add_library(resistor-divider::parser-code ALIAS parser-code)
+add_library(logic)
+add_library(resistor-divider::logic ALIAS logic)
 
-target_sources(parser-code
+target_sources(logic
     PRIVATE
-        parser-code.cpp
+        rescode_parser.cpp
     PUBLIC
-        parser-code.hpp
+        rescode_parser.hpp
 )
 
-target_include_directories(parser-code
+target_include_directories(logic
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
 )
