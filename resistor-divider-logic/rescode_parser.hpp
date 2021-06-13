@@ -6,6 +6,9 @@
 
 #pragma once
 
+#include <cstdint>
+#include <string>
+
 namespace rescode_parser {
 
 int FindPrefix(std::string const code);
