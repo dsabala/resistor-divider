@@ -2,3 +2,7 @@
 	path = third-party/Lyra
 	url = git@github.com:bfgroup/Lyra.git
 	shallow = true
+[submodule "third-party/doctest"]
+	path = third-party/doctest
+	url = git@github.com:onqtam/doctest.git
+	shallow = true
