@@ -10,6 +10,7 @@ target_sources(logic
         rescode_parser.cpp
     PUBLIC
         rescode_parser.hpp
+        resistor_pair.hpp
 )
 
 target_include_directories(logic

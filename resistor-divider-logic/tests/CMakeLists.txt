@@ -8,3 +8,12 @@ target_link_libraries(test-rescode-parser
         doctest::doctest
         resistor-divider::logic
 )
+
+add_executable(test-resistor-pair)
+target_sources(test-resistor-pair PRIVATE test_resistor_pair.cpp)
+add_test(NAME test-resistor-pair COMMAND test-resistor-pair)
+target_link_libraries(test-resistor-pair 
+    PRIVATE 
+        doctest::doctest
+        resistor-divider::logic
+)

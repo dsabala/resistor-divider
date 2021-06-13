@@ -7,48 +7,7 @@
 
 namespace res_parser = resistor_divider::code_parser;
 
-TEST_CASE("Resistor class ways of initialising") {
-    resistor_divider::Resistor default_resistor;
-    CHECK(default_resistor.GetValue() == 0);
-    resistor_divider::Resistor sample_resistor(500);
-    CHECK(sample_resistor.GetValue() == 500);
-    resistor_divider::Resistor sample_resistor_2(470'000'000'000);
-    CHECK(sample_resistor_2.GetValue() == 470'000'000'000);
-    resistor_divider::Resistor sample_resistor_3("47k2");
-    CHECK(sample_resistor_3.GetValue() == 47'200'000);
-    resistor_divider::Resistor default_resistor2;
-    default_resistor2.SetValue(700);
-    CHECK(default_resistor2.GetValue() == 700);
-    resistor_divider::Resistor resistor_late_init;
-    resistor_late_init.SetValue("1k05");
-    CHECK(resistor_late_init.GetValue() == 1'050'000);
-}
 
-
-TEST_CASE("Overloading comparison operators") {
-    resistor_divider::Resistor resistor500(500);
-    resistor_divider::Resistor resistor700(700);
-    resistor_divider::Resistor resistor700_second(700);
-
-    CHECK(resistor700 == resistor700_second);
-    CHECK_FALSE(resistor500 == resistor700);
-}
-
-TEST_CASE("Resistors pair object construction and comparison") {
-    resistor_divider::Resistor resistor_low(100);
-    resistor_divider::Resistor resistor_high(900);
-    resistor_divider::ResistorsPair example_pair(resistor_low, resistor_high);
-    CHECK(example_pair.GetRatio() == 0.1);
-
-    resistor_divider::ResistorsPair example_pair2(200, 800);
-    CHECK(example_pair2.GetRatio() == 0.2);
-
-    CHECK(example_pair < example_pair2);
-    CHECK_FALSE(example_pair.DivideInHalf());
-
-    resistor_divider::ResistorsPair example_pair3(800, 800);
-    CHECK(example_pair3.DivideInHalf());
-}
 
 void PrintRatioArray(std::vector<resistor_divider::ResistorsPair>& arr_ref) {
     std::cout << "\n List of available ratios: \n";
