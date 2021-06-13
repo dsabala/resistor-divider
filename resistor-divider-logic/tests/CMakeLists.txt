@@ -17,3 +17,12 @@ target_link_libraries(test-resistor-pair
         doctest::doctest
         resistor-divider::logic
 )
+
+add_executable(test-pairs_finder)
+target_sources(test-pairs_finder PRIVATE test_pairs_finder.cpp)
+add_test(NAME test-pairs_finder COMMAND test-pairs_finder)
+target_link_libraries(test-pairs_finder 
+    PRIVATE 
+        doctest::doctest
+        resistor-divider::logic
+)

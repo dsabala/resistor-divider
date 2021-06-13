@@ -8,9 +8,11 @@ add_library(resistor-divider::logic ALIAS logic)
 target_sources(logic
     PRIVATE
         rescode_parser.cpp
+        pairs_finder.cpp
     PUBLIC
         rescode_parser.hpp
         resistor_pair.hpp
+        pairs_finder.hpp
 )
 
 target_include_directories(logic
