@@ -8,7 +8,11 @@
 #include <cli_parser.hpp>
 
 int main(int argc, const char** argv) {
-  cli::parse(argc, argv);
+  auto parse_result = cli::parse(argc, argv);
 
-  return 0;
+  if (parse_result.is_correct) {
+    return 0;
+  } else {
+    return 1;
+  }
 }

@@ -31,8 +31,9 @@ cli::SearchResults cli::parse(int argc, const char** argv) {
     std::cout << cli << "\n";
   } else {
     std::cout << "Passed parameters: ratio = " << result.criteria.ratio
-              << "; serie = " << result.criteria.results_no
-              << "; number = " << result.criteria.results_no << "\n";
+              << " serie = " << result.criteria.results_no
+              << " number = " << result.criteria.results_no << "\n";
+    result.is_correct = true;
   }
 
   return result;
