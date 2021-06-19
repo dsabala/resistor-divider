@@ -5,8 +5,10 @@ add_library(resistor-divider::logic ALIAS logic)
 
 target_sources(logic
     PRIVATE
+        src/interface.cpp
         src/rescode_parser.cpp
         src/pairs_finder.cpp
+    PRIVATE
         src/rescode_parser.hpp
         src/resistor_pair.hpp
         src/pairs_finder.hpp
@@ -16,7 +18,7 @@ target_sources(logic
 
 target_include_directories(logic
     PUBLIC 
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/resistor-divider-logic>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     PRIVATE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
 )
