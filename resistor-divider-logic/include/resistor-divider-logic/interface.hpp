@@ -6,19 +6,8 @@
 
 #pragma once
 
-enum class SerieType {
-  kSerieE3,
-  kSerieE6,
-  kSerieE12,
-  kSerieE24,
-  kSerieE48,
-  kSerieE96,
-  kSerieE192
-};
-
 struct SearchCriteria {
-  float ratio;
-  SerieType serie;
-  int results_no;
+  float ratio {0.5}; 
+  int res_e_serie {12};
+  int results_no {10};
 };
-
