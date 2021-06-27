@@ -1,4 +1,7 @@
-﻿cmake_minimum_required (VERSION 3.16)
+﻿# https://github.com/dsabala/resistor-divider
+# License: MIT
+
+cmake_minimum_required (VERSION 3.16)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 

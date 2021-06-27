@@ -1,8 +1,5 @@
-/**
- * Project: resistor-divider
- * Site: https://githubcom/dsabala/resistor-divider
- * License: BSD
- */
+// https://github.com/dsabala/resistor-divider
+// License: MIT
 
 #pragma once
 

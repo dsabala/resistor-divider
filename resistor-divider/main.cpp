@@ -1,9 +1,5 @@
-/**
- * Project: Resistor Divider
- * Author: Dariusz Sabala
- * License: BSD
- * Site: https://github.com/dsabala/resistor-divider
- */
+// https://github.com/dsabala/resistor-divider
+// License: MIT
 
 #include <cli.hpp>
 

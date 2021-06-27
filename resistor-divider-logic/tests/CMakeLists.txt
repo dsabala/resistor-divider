@@ -1,3 +1,6 @@
+# https://github.com/dsabala/resistor-divider
+# License: MIT
+
 add_executable(test-rescode-parser)
 target_sources(test-rescode-parser PRIVATE test_rescode_parser.cpp)
 add_test(NAME test-rescode-parser COMMAND test-rescode-parser)

@@ -1,8 +1,5 @@
-/**
- * Project: resistor-divider
- * Site: https://github.com/dsabala/resistor-divider
- * License: BSD
- */
+// https://github.com/dsabala/resistor-divider
+// License: MIT
 
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
