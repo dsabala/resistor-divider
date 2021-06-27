@@ -4,9 +4,8 @@ pipeline {
     stages{
         stage('Build all') {
             steps {
-                cmake -B build-gcc-Debug -DCMAKE_BUILD_TYPE=Debug
-                cd build-gcc-Debug
-                make -j 1
+                cmake arguments: '-B build-gcc-Debug', installation: 'InSearchPath'
+                cmakeBuild buildType: 'Debug', cleanBuild: true, installation: 'InSearchPath', steps: [[withCmake: true]]
             }
         }
     }
