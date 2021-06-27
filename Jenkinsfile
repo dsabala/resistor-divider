@@ -1,10 +1,5 @@
 pipeline {
-  stages {
-    stage('Build') {
-        when {
-            changeRequest()
-        }
-        stages{
+    stages{
         stage('Build all') {
             steps {
                 sh '''#!/bin/bash -e
@@ -16,11 +11,4 @@ pipeline {
             }
         }
     }
-    }
-  }
-  post {
-    always {
-        cleanWs()
-    }
-  }
 }
