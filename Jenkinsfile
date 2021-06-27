@@ -7,11 +7,16 @@ pipeline {
     stages{
         stage('Build debug') {
             steps {
-                sh '''
-                    cd build-gcc-Debug &&
-                    cmake -D CMAKE_BUILD_TYPE=Debug .. &&
-                    make
-                '''
+                try {
+                    sh '''
+                        cd build-gcc-Debug &&
+                        cmake -D CMAKE_BUILD_TYPE=Debug .. &&
+                        make
+                    '''
+                    buildDebugStatus.setStatus('passing')
+                } catch (Exception err) {
+                    buildDebugStatus.setStatus('passing')
+                }
             }
         }
 
