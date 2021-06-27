@@ -5,20 +5,22 @@ pipeline {
     agent any
 
     stages{
-        stages {
-            stage('Build debug') {
+        stage('Build debug') {
+            try {
                 steps {
                     cmake arguments: '-B build-gcc-Debug', installation: 'InSearchPath'
                     cmakeBuild buildType: 'Debug', cleanBuild: true, installation: 'InSearchPath', steps: [[withCmake: true]]
+                    buildDebugStatus.setStatus('passing')
                 }
+            } catch (Exception err)
+            {
+                buildDebugStatus.setStatus('failing')
             }
         }
 
-        stages {
-            stage('Unit tests') {
-                steps {
-                    ctest 'InSearchPath'
-                }
+        stage('Unit tests') {
+            steps {
+                ctest 'InSearchPath'
             }
         }
     }
