@@ -28,10 +28,6 @@ TEST_CASE("Pairs list generation - core") {
     {470,  2200},
     {220,  470},
     {2200, 4700},
-    {220,  220},
-    {470,  470},
-    {2200, 2200},
-    {4700, 4700},
     {470,  220},
     {4700, 2200},
     {2200, 470},
@@ -46,20 +42,17 @@ TEST_CASE("Pairs list generation - core") {
 }
 
 TEST_CASE("Pairs list generation - usage") {
+  // clang-format off
   std::vector<ResistorsPair> ratio_list_expected{
     {100,  470},
     {100,  220},
     {220,  470},
-    {100,  100},
-    {220,  220},
-    {470,  470},
     {470,  220},
     {220,  100},
     {470,  100}
   };
-
+  // clang-format on
   std::vector<ResistorsPair> ratio_list_gen;
   ratio_list_gen = PairsFinder::GenerateRatioList(3, 100, 470);
-
   CHECK(ratio_list_expected == ratio_list_gen);
 }

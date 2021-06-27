@@ -25,4 +25,6 @@ std::vector<ResistorsPair> GenerateRatioList(
     const int serie, const std::uint64_t resistance_min,
     const std::uint64_t resistance_max);
 
+
+
 }  // namespace PairsFinder

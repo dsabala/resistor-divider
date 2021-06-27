@@ -28,7 +28,7 @@ std::vector<ResistorsPair> PairsFinder::GenerateRatioList(
           if ((res1.GetValue() >= resistance_min) &&
               (res1.GetValue() <= resistance_max) &&
               (res2.GetValue() >= resistance_min) &&
-              (res2.GetValue() <= resistance_max)) {
+              (res2.GetValue() <= resistance_max) && (res1 != res2)) {
             ResistorsPair pair(res1, res2);
             ratio_list.push_back(pair);
           }

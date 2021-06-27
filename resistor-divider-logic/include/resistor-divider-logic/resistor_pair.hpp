@@ -22,6 +22,10 @@ class Resistor {
     return value == second.value;
   }
 
+  constexpr bool operator!=(const Resistor& second) const {
+    return value != second.value;
+  }
+
   constexpr bool operator<(const Resistor& a) const { return value < a.value; }
 
   constexpr bool operator>(const Resistor& a) const { return value > a.value; }
