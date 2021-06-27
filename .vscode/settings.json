@@ -83,6 +83,13 @@
     "deque": "cpp",
     "unordered_map": "cpp",
     "memory_resource": "cpp",
-    "string_view": "cpp"
+    "string_view": "cpp",
+    "list": "cpp",
+    "functional": "cpp",
+    "numeric": "cpp",
+    "random": "cpp",
+    "ranges": "cpp",
+    "shared_mutex": "cpp",
+    "unordered_set": "cpp"
   },
 }

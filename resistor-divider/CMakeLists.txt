@@ -4,8 +4,8 @@ add_executable(resistor-divider)
 
 target_sources(resistor-divider
     PRIVATE
-        cli_parser.cpp
-        cli_parser.hpp
+        cli.cpp
+        cli.hpp
         main.cpp
 )
 

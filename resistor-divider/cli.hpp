@@ -6,13 +6,13 @@
 
 #pragma once
 
-#include <resistor-divider-logic/interface.hpp>
+#include <resistor-divider-logic/resistor_divider_logic.hpp>
 
 namespace cli {
 
 struct SearchResults {
   bool is_correct {false};
-  SearchCriteria criteria;
+  ResistorDivider::SearchCriteria criteria;
 };
 
 SearchResults parse(int argc, const char** argv);

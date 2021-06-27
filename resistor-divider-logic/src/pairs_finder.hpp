@@ -7,13 +7,22 @@
 #pragma once
 
 #include <cstdint>
+#include <resistor-divider-logic/resistor_divider_logic.hpp>
+#include <resistor-divider-logic/resistor_pair.hpp>
 #include <vector>
-#include <resistor_pair.hpp>
 
 namespace PairsFinder {
 
-void GenerateRatioList(std::vector<ResistorsPair>& ratio_list,
-                       const std::vector<std::uint64_t>& val_multipliers,
-                       const std::vector<std::uint64_t>& val_serie);
+std::vector<std::uint64_t> GenerateSerieVector(int const serie);
+
+std::vector<ResistorsPair> GenerateRatioList(
+    const std::vector<std::uint64_t>& val_multipliers,
+    const std::vector<std::uint64_t>& val_serie,
+    const std::uint64_t resistance_min = ResistorDivider::kResistanceMin_mR,
+    const std::uint64_t resistance_max = ResistorDivider::kResistanceMax_mR);
+
+std::vector<ResistorsPair> GenerateRatioList(
+    const int serie, const std::uint64_t resistance_min,
+    const std::uint64_t resistance_max);
 
 }  // namespace PairsFinder

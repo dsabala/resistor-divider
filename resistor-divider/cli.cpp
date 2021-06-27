@@ -4,7 +4,7 @@
  * License: BSD
  */
 
-#include "cli_parser.hpp"
+#include "cli.hpp"
 
 #include <lyra/lyra.hpp>
 
@@ -18,11 +18,9 @@ cli::SearchResults cli::parse(int argc, const char** argv) {
                  .required() |
              lyra::opt(result.criteria.res_e_serie, "serie")["-s"]["--serie"](
                  "maximum resistor serie, for example -s 24")
-                 .choices(3, 6, 12, 24)
-                 .required() |
+                 .choices(3, 6, 12, 24) |
              lyra::opt(result.criteria.results_no, "number")["-n"]["--number"](
-                 "hits number, for example -n 10")
-                 .required();
+                 "hits number, for example -n 10");
   auto arguments = cli.parse({argc, argv});
 
   if (!arguments) {
@@ -31,8 +29,8 @@ cli::SearchResults cli::parse(int argc, const char** argv) {
     std::cout << cli << "\n";
   } else {
     std::cout << "Passed parameters: ratio = " << result.criteria.ratio
-              << " serie = " << result.criteria.results_no
-              << " number = " << result.criteria.results_no << "\n";
+              << "; serie = " << result.criteria.res_e_serie
+              << "; number of results = " << result.criteria.results_no << "\n";
     result.is_correct = true;
   }
 

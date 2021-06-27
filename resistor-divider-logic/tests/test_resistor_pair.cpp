@@ -8,7 +8,7 @@
 
 #include <doctest/doctest.h>
 
-#include <resistor_pair.hpp>
+#include <resistor-divider-logic/resistor_pair.hpp>
 
 TEST_CASE("Resistor class constructor default") {
   Resistor resistor;

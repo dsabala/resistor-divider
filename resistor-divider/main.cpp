@@ -5,7 +5,7 @@
  * Site: https://github.com/dsabala/resistor-divider
  */
 
-#include <cli_parser.hpp>
+#include <cli.hpp>
 
 int main(int argc, const char** argv) {
   auto parse_result = cli::parse(argc, argv);
