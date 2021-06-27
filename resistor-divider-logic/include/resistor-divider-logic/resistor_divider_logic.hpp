@@ -25,6 +25,8 @@ struct SearchCriteria {
   float ratio{0.5};
   int res_e_serie{12};
   int results_no{10};
+  Resistor res_min{kResistanceMin_mR};
+  Resistor res_max{kResistanceMax_mR};
 };
 
 struct SearchResults {

@@ -13,6 +13,7 @@ class Resistor {
  public:
   constexpr Resistor() {}
   constexpr Resistor(std::uint64_t const val) : value(val) {}
+  Resistor(std::string const res_code) {}
 
   constexpr std::uint64_t GetValue() { return value; }
 
