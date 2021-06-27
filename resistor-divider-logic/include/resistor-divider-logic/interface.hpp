@@ -6,8 +6,16 @@
 
 #pragma once
 
+namespace ResistorDivider {
+
 struct SearchCriteria {
-  float ratio {0.5}; 
-  int res_e_serie {12};
-  int results_no {10};
+  float ratio{0.5};
+  int res_e_serie{12};
+  int results_no{10};
 };
+
+
+
+//Search(SearchCriteria & criteria);
+
+}  // namespace ResistorDivider
