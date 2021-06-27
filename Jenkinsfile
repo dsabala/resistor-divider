@@ -8,16 +8,18 @@ pipeline {
         stage('Build debug') {
             steps {
                 sh '''
-                        cd build &&
-                        cmake -D CMAKE_BUILD_TYPE=Debug .. &&
-                        make
+                    cd build-gcc-Debug &&
+                    cmake -D CMAKE_BUILD_TYPE=Debug .. &&
+                    make
                 '''
             }
         }
 
         stage('Unit tests') {
             steps {
-                ctest 'InSearchPath'
+                sh '''
+                    ctest
+                '''
             }
         }
     }
