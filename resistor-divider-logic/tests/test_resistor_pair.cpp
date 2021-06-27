@@ -14,7 +14,7 @@ TEST_CASE("Resistor class constructor default") {
 
 TEST_CASE("Resistor class constructor numeric") {
   Resistor resistor(500);
-  CHECK(resistor.GetValue() == 500);
+  CHECK(resistor.GetValue() == 400);
 }
 
 TEST_CASE("Resistor class value setter") {
