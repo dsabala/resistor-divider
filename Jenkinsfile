@@ -7,15 +7,8 @@ pipeline {
     stages{
         stage('Build debug') {
             steps {
-                try {
-                    cmake arguments: '-B build-gcc-Debug', installation: 'InSearchPath'
-                    cmakeBuild buildType: 'Debug', cleanBuild: true, installation: 'InSearchPath', steps: [[withCmake: true]]
-                    buildDebugStatus.setStatus('passing')
-                    
-                } catch (Exception err)
-                {
-                    buildDebugStatus.setStatus('failing')
-                }
+                cmake arguments: '-B build-gcc-Debug', installation: 'InSearchPath'
+                cmakeBuild buildType: 'Debug', cleanBuild: true, installation: 'InSearchPath', steps: [[withCmake: true]]
             }
         }
 
